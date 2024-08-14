@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>StudentsDialog</class>
- <widget class="QDialog" name="StudentsDialog">
+ <class>UpdateStudentDialog</class>
+ <widget class="QDialog" name="UpdateStudentDialog">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -67,7 +67,7 @@ QComboBox{
     <rect>
      <x>20</x>
      <y>5</y>
-     <width>251</width>
+     <width>401</width>
      <height>41</height>
     </rect>
    </property>
@@ -79,7 +79,7 @@ QComboBox{
     </font>
    </property>
    <property name="text">
-    <string>Add New Student</string>
+    <string>Update Student Information</string>
    </property>
   </widget>
   <widget class="QWidget" name="layoutWidget">
@@ -109,7 +109,7 @@ QComboBox{
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="name_lineEdit">
+       <widget class="QLineEdit" name="update_name_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -145,7 +145,7 @@ QComboBox{
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="gender_comboBox">
+         <widget class="QComboBox" name="update_gender_comboBox">
           <item>
            <property name="text">
             <string>Male</string>
@@ -177,7 +177,7 @@ QComboBox{
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="class_comboBox">
+         <widget class="QComboBox" name="update_class_comboBox">
           <item>
            <property name="text">
             <string>Grade 1</string>
@@ -259,7 +259,7 @@ QComboBox{
          </widget>
         </item>
         <item>
-         <widget class="QDateEdit" name="dob_dateEdit">
+         <widget class="QDateEdit" name="update_dob_dateEdit">
           <property name="font">
            <font>
             <bold>true</bold>
@@ -277,9 +277,9 @@ QComboBox{
        <widget class="QLabel" name="label_3">
         <property name="font">
          <font>
-          <family>Poppins SemiBold</family>
+          <family>Poppins Medium</family>
           <pointsize>12</pointsize>
-          <bold>true</bold>
+          <bold>false</bold>
          </font>
         </property>
         <property name="text">
@@ -288,7 +288,7 @@ QComboBox{
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="address_lineEdit">
+       <widget class="QLineEdit" name="update_address_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -322,7 +322,7 @@ QComboBox{
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="phone_lineEdit">
+       <widget class="QLineEdit" name="update_phone_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -356,7 +356,7 @@ QComboBox{
        </widget>
       </item>
       <item>
-       <widget class="QLineEdit" name="email_lineEdit">
+       <widget class="QLineEdit" name="update_email_lineEdit">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -378,20 +378,27 @@ QComboBox{
   <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
-     <x>300</x>
+     <x>260</x>
      <y>510</y>
-     <width>241</width>
+     <width>281</width>
      <height>43</height>
     </rect>
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_2">
     <item>
-     <widget class="QPushButton" name="saveStudent_btn">
+     <widget class="QPushButton" name="updateStudent_btn">
       <property name="minimumSize">
        <size>
         <width>0</width>
         <height>41</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins SemiBold</family>
+        <pointsize>-1</pointsize>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton{
@@ -404,17 +411,24 @@ QComboBox{
 }</string>
       </property>
       <property name="text">
-       <string>Add Student</string>
+       <string>Update Student</string>
       </property>
      </widget>
     </item>
     <item>
-     <widget class="QPushButton" name="cancel_btn">
+     <widget class="QPushButton" name="update_cancel_btn">
       <property name="minimumSize">
        <size>
         <width>0</width>
         <height>41</height>
        </size>
+      </property>
+      <property name="font">
+       <font>
+        <family>Poppins SemiBold</family>
+        <pointsize>-1</pointsize>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="styleSheet">
        <string notr="true">QPushButton{

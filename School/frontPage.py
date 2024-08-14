@@ -3,6 +3,7 @@ from PySide6.QtGui import QAction, QIcon
 from ui_index import Ui_MainWindow  # ui_index.py에서 생성된 UI 클래스 임포트
 
 import mysql.connector
+from UpdateStudentDialog import UpdateStudentDialog
 
 class MySideBar(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -232,7 +233,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
 
     def open_addstudent_dialog(self):
 
-        from ui_studentDialog import Ui_StudentsDialog
+        from StudentDialog import Ui_StudentsDialog
         
         # Instantiate and show the dialog
         addStudent_Dialog = Ui_StudentsDialog(self)
@@ -334,6 +335,7 @@ class DoubleButtonWidgetStudents(QWidget):
         self.edit_button = QPushButton("", self)
         self.edit_button.setStyleSheet("background-color: blue")
         self.edit_button.setFixedSize(61, 31)
+        self.edit_button.clicked.connect(self.edit_clicked)
 
         # Create red Delete button
         self.delete_button = QPushButton("", self)
@@ -341,15 +343,54 @@ class DoubleButtonWidgetStudents(QWidget):
         self.delete_button.setFixedSize(61, 31)
 
         # Set icons for the buttons
-        icon = QIcon("C:\Workspace\School\Icons\edit.png")
+        icon = QIcon(r"C:\Workspace\registraion-project_git\School\Icons\edit.png")
         self.edit_button.setIcon(icon)
 
-        icon2 = QIcon("C:\Workspace\School\Icons\delete.png")
+        icon2 = QIcon(r"C:\Workspace\registraion-project_git\School\Icons\delete.png")
         self.delete_button.setIcon(icon2)
 
         layout.addWidget(self.edit_button)
         layout.addWidget(self.delete_button)
 
+    # CREATE DATABASE CONNECTION
 
+    def create_connection(self):
 
+        # Replace these with your actual MySQL server details
+        host_name = "localhost"
+        user_name = "root"
+        mypassword = "shin5082@12"
+        datebase_name = "my_school"
 
+        # Establish a connection to MySQL server
+        self.mydb  = mysql.connector.connect(
+            host=host_name,
+            user=user_name,
+            password=mypassword,
+        )
+        
+        # Create a cursor to execute SQL queries
+        cursor = self.mydb.cursor()
+
+        # Create the database if it does not exist
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {datebase_name}")
+
+        # Connect to the created database
+        self.mydb = mysql.connector.connect(
+            host=host_name,
+            user=user_name,
+            password=mypassword,
+            database=datebase_name
+        )
+
+        return self.mydb
+    
+    def edit_clicked(self):
+        # Create an instance of UpdateStudent Dialog
+        self.update_dialog = UpdateStudentDialog(self.row_index, self.row_data)
+
+        # Execute the dialog
+        self.update_dialog.exec()
+
+    def delete_clicked(self):
+        pass
