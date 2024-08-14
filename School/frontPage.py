@@ -1,9 +1,13 @@
-from PySide6.QtWidgets import QMainWindow, QMenu, QTableWidgetItem, QWidget, QHBoxLayout, QVBoxLayout, QPushButton
+from PySide6.QtWidgets import QMainWindow, QMenu, QTableWidgetItem, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QMessageBox
 from PySide6.QtGui import QAction, QIcon
 from ui_index import Ui_MainWindow  # ui_index.py에서 생성된 UI 클래스 임포트
 
 import mysql.connector
 from UpdateStudentDialog import UpdateStudentDialog
+import pandas as pd
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
+from reportlab.lib import colors
 
 class MySideBar(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -267,7 +271,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
                 self.studentInfo_table.setItem(row_index, col_index, item)
 
                 # Create a custom widget with two buttons lineed up horizontally for the action column
-                double_button_widget = DoubleButtonWidgetStudents(row_index, row_data)
+                double_button_widget = DoubleButtonWidgetStudents(row_index, row_data, self)
 
                 # Set this custom widget with two buttons lineed up horizontally for the action column
                 self.studentInfo_table.setCellWidget(row_index, 9, double_button_widget)
@@ -308,7 +312,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
                 self.studentInfo_table.setItem(row_index, col_index, item)
 
                 # Create a custom widget with two buttons lineed up horizontally for the action column
-                double_button_widget = DoubleButtonWidgetStudents(row_index, row_data)
+                double_button_widget = DoubleButtonWidgetStudents(row_index, row_data, self)
 
                 # Set this custom widget with two buttons lineed up horizontally for the action column
                 self.studentInfo_table.setCellWidget(row_index, 9, double_button_widget)
@@ -318,12 +322,13 @@ class MySideBar(QMainWindow, Ui_MainWindow):
     # DOUBLE BUTTON CLASS
 
 class DoubleButtonWidgetStudents(QWidget):
-    def __init__(self, row_index, row_data):
+    def __init__(self, row_index, row_data, sideBar):
         super().__init__()
 
         # Store the row index and row data as an instance in variables
         self.row_index = row_index
         self.row_data = row_data
+        self.sidebar = sideBar # Store a reference to MySideBar
 
         # Get student variables from the tuple
         self.student_name = self.row_data[0]
@@ -341,6 +346,7 @@ class DoubleButtonWidgetStudents(QWidget):
         self.delete_button = QPushButton("", self)
         self.delete_button.setStyleSheet("background-color: red")
         self.delete_button.setFixedSize(61, 31)
+        self.delete_button.clicked.connect(self.delete_clicked)
 
         # Set icons for the buttons
         icon = QIcon(r"C:\Workspace\registraion-project_git\School\Icons\edit.png")
@@ -389,8 +395,31 @@ class DoubleButtonWidgetStudents(QWidget):
         # Create an instance of UpdateStudent Dialog
         self.update_dialog = UpdateStudentDialog(self.row_index, self.row_data)
 
+        # Connect the custom signal to reload_Studentstable_data slot in MySideBar
+        self.update_dialog.data_updated.connect(self.sidebar.reload_Studentstable_data)
+
         # Execute the dialog
         self.update_dialog.exec()
 
     def delete_clicked(self):
-        pass
+        
+        cursor = self.create_connection().cursor()
+
+        # Create a confirmation dialog
+        message = QMessageBox.question(
+            self, 'Confirmation',
+            "Are you sure you want to delete " + self.student_name + "?",
+            QMessageBox.StandardButton.Yes | QMessageBox.StandardButton.No
+        )
+
+        if message == QMessageBox.StandardButton.Yes:
+            # Delete the row from the students_table
+
+            delete_query = "DELETE FROM students_table WHERE student_id = %s"
+            cursor.execute(delete_query, (self.student_id,))
+            self.mydb.commit()
+            self.mydb.close()
+
+            # Emit a signal to inform about the change
+            self.sidebar.reload_Studentstable_data()
+

@@ -25,6 +25,10 @@ from datetime import datetime
 
 
 class UpdateStudentDialog(QDialog):
+
+    # Define a custom signal as a class variable
+    data_updated = Signal()
+
     def __init__(self, row_index, row_data):
         super().__init__()
 
@@ -434,6 +438,9 @@ class UpdateStudentDialog(QDialog):
             cursor.close()
             connection.close()
             self.close()
+
+            # Emit the signal
+            self.data_updated.emit()
 
         except mysql.connector.Error as err:
             # Handle MySQL errors
