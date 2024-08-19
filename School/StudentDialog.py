@@ -339,7 +339,7 @@ class Ui_StudentsDialog(QDialog):
             if connection is not None:
                 return
             
-            cursor = connection.cursor()
+            cursor = connection().cursor()
 
             gender = self.gender_comboBox.currentText()
             student_id = self.generate_studentId(gender)
@@ -364,7 +364,7 @@ class Ui_StudentsDialog(QDialog):
             ]
 
             # to insert multiple rows in the database
-            insert_student_query = f""" INSERT INTO students_table (name, student_id, gender, class, birthday, age, address, phone_number, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
+            insert_student_query = f""" INSERT INTO students_table (names, student_id, gender, class, birthday, age, address, phone_number, email) VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)"""
 
             cursor.execute(insert_student_query, self.new_stdent)
             self.show_inserted_message()
@@ -390,6 +390,13 @@ class Ui_StudentsDialog(QDialog):
             random_value = self.generate_ramdomNumber()
             student_id = id_start_value + random_value
 
+            # Check if the generated student id is already in the table
+            cursor.execute(f"SELECT student_id FROM students_table WHERE student_id = %s", (student_id,))
+            existing_id = cursor.fetchone()
+
+            if not existing_id:
+                return student_id
+
     def generate_ramdomNumber(self):
 
         number = randint(1, 9999)
@@ -413,7 +420,7 @@ class Ui_StudentsDialog(QDialog):
         birth_datetime = datetime(birth_date.year(), birth_date.month(), birth_date.day()).date()
 
         # Calculate the difference in years
-        age = current_date.year() - birth_datetime.year()
+        age = current_date.year - birth_datetime.year
 
         # Check if the birthday has occurred this year
         if (current_date.month, current_date.day) < (birth_datetime.month, birth_datetime.day):

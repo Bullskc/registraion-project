@@ -295,7 +295,7 @@ class UpdateStudentDialog(QDialog):
 
     def retranslateUi(self):
         self.setWindowTitle(QCoreApplication.translate("UpdateStudentDialog", u"Update Student Dialog", None))
-        self.setWindowIcon(QIcon("C:\Workspace\registraion-project_git\School\Icons\logo.png"))
+        self.setWindowIcon(QIcon(r"C:\Workspace\registraion-project_git\School\Icons\logo.png"))
         self.label.setText(QCoreApplication.translate("UpdateStudentDialog", u"Update Student Information", None))
         self.label_2.setText(QCoreApplication.translate("UpdateStudentDialog", u"Full Name", None))
         self.label_6.setText(QCoreApplication.translate("UpdateStudentDialog", u"Select Gender", None))
@@ -386,7 +386,7 @@ class UpdateStudentDialog(QDialog):
             self.student_id
         ]
 
-        select_query = f"SELECT * FROM students_table WHERE name = %s AND student_id = %s"
+        select_query = f"SELECT * FROM students_table WHERE names = %s AND student_id = %s"
 
         self.cursor.execute(select_query, params)
 
@@ -430,7 +430,7 @@ class UpdateStudentDialog(QDialog):
 
             print(params)
 
-            update_query = f"UPDATE students_table SET name = %s, student_id = %s, gender = %s, class = %s, birthday = %s, age = %s, address = %s, phone_number = %s, email = %s WHERE student_id = %s"
+            update_query = f"UPDATE students_table SET names = %s, student_id = %s, gender = %s, class = %s, birthday = %s, age = %s, address = %s, phone_number = %s, email = %s WHERE student_id = %s"
 
             cursor.execute(update_query, params)
             connection.commit()

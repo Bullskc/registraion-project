@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QMainWindow, QMenu, QTableWidgetItem, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QMessageBox
+from PySide6.QtWidgets import QMainWindow, QMenu, QTableWidgetItem, QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QMessageBox, QFileDialog
 from PySide6.QtGui import QAction, QIcon
 from ui_index import Ui_MainWindow  # ui_index.py에서 생성된 UI 클래스 임포트
 
@@ -8,6 +8,7 @@ import pandas as pd
 from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Table, TableStyle
 from reportlab.lib import colors
+
 
 class MySideBar(QMainWindow, Ui_MainWindow):
     def __init__(self):
@@ -50,7 +51,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.teachers_1.clicked.connect(self.teachers_context_menu)
         self.finances_1.clicked.connect(self.finances_context_menu)
 
-        # Connect to mySQL server and create a database if it does not exist
+        # Connect to mySQL server and create a database if it doent exist
         self.create_connection()
 
         # Create students table
@@ -73,6 +74,12 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         self.studentInfo_table.setColumnWidth(7, 80)
         self.studentInfo_table.setColumnWidth(8, 120)
         self.studentInfo_table.setColumnWidth(9, 150)
+
+        # Excel Export
+        self.excelExport_btn.clicked.connect(self.export_to_excel_studentsTable)
+
+        # PDF Export
+        self.pdfExport_btn.clicked.connect(self.export_to_pdf_studentsTable)
 
         # Open add student dialog
         self.addStudent_btn.clicked.connect(self.open_addstudent_dialog)
@@ -182,7 +189,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         host_name = "localhost"
         user_name = "root"
         mypassword = "shin5082@12"
-        datebase_name = "my_school"
+        database_name = "my_school"
 
         # Establish a connection to MySQL server
         self.mydb  = mysql.connector.connect(
@@ -195,14 +202,14 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         cursor = self.mydb.cursor()
 
         # Create the database if it does not exist
-        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {datebase_name}")
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS {database_name}")
 
         # Connect to the created database
         self.mydb = mysql.connector.connect(
-            host=host_name,
-            user=user_name,
-            password=mypassword,
-            database=datebase_name
+            host = host_name,
+            user = user_name,
+            password = mypassword,
+            database = database_name
         )
 
         return self.mydb
@@ -216,7 +223,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         # The query
         create_students_table_query = f"""
                     CREATE TABLE IF NOT EXISTS students_table(
-                        name TEXT,
+                        names TEXT,
                         student_id VARCHAR(15) PRIMARY KEY,
                         gender TEXT,
                         class TEXT,
@@ -282,7 +289,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
         cursor = self.create_connection().cursor()
 
         # Construct the SQL query based on the selected filters
-        query = f""" SELECT name, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE 
+        query = f""" SELECT names, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE 
                 ('{class_filter}' = 'SELECT CLASS' OR class = '{class_filter}') AND
                 ('{gender_filter}' = 'SELECT GENDER' OR gender = '{gender_filter}') """
         
@@ -300,7 +307,7 @@ class MySideBar(QMainWindow, Ui_MainWindow):
 
         # Execute the SQL query
         cursor = self.create_connection().cursor()
-        sql_query = f""" SELECT name, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE name LIKE '%{search_query}%' """
+        sql_query = f""" SELECT names, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE name LIKE '%{search_query}%' """
         cursor.execute(sql_query)
         results = cursor.fetchall()
 
@@ -317,6 +324,80 @@ class MySideBar(QMainWindow, Ui_MainWindow):
                 # Set this custom widget with two buttons lineed up horizontally for the action column
                 self.studentInfo_table.setCellWidget(row_index, 9, double_button_widget)
                 self.studentInfo_table.setRowHeight(row_index, 50)
+
+    # EXCEL EXPORT
+
+    def export_to_excel_studentsTable(self):
+
+        # Convert QTableWidget to pandas Dataframe
+        data = []
+
+        self.headers = [self.studentInfo_table.horizontalHeaderItem(col).text() for col in range(self.studentInfo_table.columnCount())]
+
+        for row in range(self.studentInfo_table.rowCount()):
+            # Check if the item is not None before accessing its text
+            row_data = [self.studentInfo_table.item(row, col).text() if self.studentInfo_table.item(row, col) is not None else "" for col in range(self.studentInfo_table.columnCount())]
+            data.append(row_data)
+
+        # Create a pandas DataFrame with the collected data and the headers
+        df = pd.DataFrame(data, columns=self.headers)
+
+        # Save the DataFrame to excel file
+        # Exclude the last column before exporting
+        df_filtered = df.iloc[:, :-1]
+
+        # Open QFileDialog to get the file path
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getSaveFileName(self, "Save Excel File", "", "Excel files (*.xlsx);;All files (*)")
+
+        if file_path:
+            # Save filtered DataFrame to excel file at the chosen path
+            df_filtered.to_excel(file_path, index=False)
+            print(f"Table exported to {file_path}")
+
+    # PDF EXPORT
+
+    def export_to_pdf_studentsTable(self):
+
+        # Open QFileDialog to get the file path
+        file_dialog = QFileDialog()
+        file_path, _ = file_dialog.getSaveFileName(self, "Save PDF File", "", "PDF files (*.pdf);;All files (*)")
+
+        if file_path:
+            # Create a PDF document
+            pdf_document = SimpleDocTemplate(file_path, pagesize=letter)
+
+            # Assuming n is the total number of columns in your QTable Widget
+            n = self.studentInfo_table.columnCount()
+
+            # Extract the headers from the QTableWidget
+            headers = [self.studentInfo_table.horizontalHeaderItem(col).text() for col in range(n-1)]
+
+            # Extract data from the QTableWidget, excluding the last column
+            data = [headers]
+
+            for row in range(self.studentInfo_table.rowCount()):
+                row_data = [self.studentInfo_table.item(row, col).text() if self.studentInfo_table.item(row, col) is not None else "" for col in range(n-1)]
+                data.append(row_data)
+
+            # Create a PDF table
+            pdf_table = Table(data)
+
+            # Apply styles to the table
+            style = TableStyle([
+                ('ALIGN', (0, 0), (-1, -1), 'CENTER'),
+                ('FONTNAME', (0, 0), (-1, 0), 'Helvetica-Bold'),
+                ('FONTSIZE', (0, 0), (-1, 0), 8),
+                ('BOTTOMPADDING', (0, 0), (-1, 0), 12),
+                ('GRID', (0, 0), (-1, -1), 1, colors.black)
+            ])
+
+            pdf_table.setStyle(style)
+
+            # Build the PDF document
+            pdf_document.build([pdf_table])
+
+            print(f"Table exported to {file_path}")
 
 
     # DOUBLE BUTTON CLASS
@@ -422,4 +503,6 @@ class DoubleButtonWidgetStudents(QWidget):
 
             # Emit a signal to inform about the change
             self.sidebar.reload_Studentstable_data()
+
+
 
