@@ -79,7 +79,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>:/ /Icons/logo.png</pixmap>
+             <pixmap resource="resources.qrc">:/ /Icons/logo.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -115,7 +115,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/dashboardsmall1.png</normaloff>
               <normalon>:/ /Icons/dashboardsmall2.png</normalon>:/ /Icons/dashboardsmall1.png</iconset>
             </property>
@@ -133,7 +133,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/institutionsmall1.png</normaloff>
               <normalon>:/ /Icons/institutionsmall2.png</normalon>:/ /Icons/institutionsmall1.png</iconset>
             </property>
@@ -157,7 +157,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/studentssmall1.png</normaloff>
               <normalon>:/ /Icons/studentssmall2.png</normalon>:/ /Icons/studentssmall1.png</iconset>
             </property>
@@ -181,7 +181,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/teacherssmall1.png</normaloff>
               <normalon>:/ /Icons/teacherssmall2.png</normalon>:/ /Icons/teacherssmall1.png</iconset>
             </property>
@@ -205,7 +205,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/financessmall1.png</normaloff>
               <normalon>:/ /Icons/financessmall2.png</normalon>:/ /Icons/financessmall1.png</iconset>
             </property>
@@ -249,7 +249,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/settingssmall1.png</normaloff>
               <normalon>:/ /Icons/settingssmall2.png</normalon>:/ /Icons/settingssmall1.png</iconset>
             </property>
@@ -273,7 +273,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/signoutsmall1.png</normaloff>
               <normalon>:/ /Icons/signoutsmall2.png</normalon>:/ /Icons/signoutsmall1.png</iconset>
             </property>
@@ -333,7 +333,7 @@ QPushButton{
              <string/>
             </property>
             <property name="pixmap">
-             <pixmap>:/ /Icons/logo.png</pixmap>
+             <pixmap resource="resources.qrc">:/ /Icons/logo.png</pixmap>
             </property>
             <property name="scaledContents">
              <bool>true</bool>
@@ -379,7 +379,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/dashboard2.png</normaloff>
               <normalon>:/ /Icons/dashboard1.png</normalon>:/ /Icons/dashboard2.png</iconset>
             </property>
@@ -410,7 +410,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/institution2.png</normaloff>
               <normalon>:/ /Icons/institution1.png</normalon>:/ /Icons/institution2.png</iconset>
             </property>
@@ -458,7 +458,7 @@ QPushButton:checked{
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/students3.png</normaloff>
                  <normalon>:/ /Icons/students4.png</normalon>:/ /Icons/students3.png</iconset>
                </property>
@@ -575,7 +575,7 @@ QPushButton:hover{
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/teachers3.png</normaloff>
                  <normalon>:/ /Icons/teachers4.png</normalon>:/ /Icons/teachers3.png</iconset>
                </property>
@@ -692,7 +692,7 @@ QPushButton:hover{
                 <string/>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/finances3.png</normaloff>
                  <normalon>:/ /Icons/finances4.png</normalon>:/ /Icons/finances3.png</iconset>
                </property>
@@ -815,7 +815,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/settings2.png</normaloff>
               <normalon>:/ /Icons/settings1.png</normalon>:/ /Icons/settings2.png</iconset>
             </property>
@@ -846,7 +846,7 @@ QPushButton:checked{
              <string/>
             </property>
             <property name="icon">
-             <iconset>
+             <iconset resource="resources.qrc">
               <normaloff>:/ /Icons/signout2.png</normaloff>
               <normalon>:/ /Icons/signout1.png</normalon>:/ /Icons/signout2.png</iconset>
             </property>
@@ -882,7 +882,7 @@ QPushButton:checked{
                <string/>
               </property>
               <property name="icon">
-               <iconset>
+               <iconset resource="resources.qrc">
                 <normaloff>:/ /Icons/menu.png</normaloff>:/ /Icons/menu.png</iconset>
               </property>
               <property name="iconSize">
@@ -995,7 +995,7 @@ QPushButton:checked{
                <string/>
               </property>
               <property name="pixmap">
-               <pixmap>:/ /Icons/profile.png</pixmap>
+               <pixmap resource="resources.qrc">:/ /Icons/profile.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -1221,7 +1221,7 @@ QTableWidget{
                 <string>Add Student</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/add student.png</normaloff>:/ /Icons/add student.png</iconset>
                </property>
               </widget>
@@ -1248,7 +1248,7 @@ QTableWidget{
                 <string>Export to Excel</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/excel.png</normaloff>:/ /Icons/excel.png</iconset>
                </property>
               </widget>
@@ -1275,7 +1275,7 @@ QTableWidget{
                 <string>Export to PDF</string>
                </property>
                <property name="icon">
-                <iconset>
+                <iconset resource="resources.qrc">
                  <normaloff>:/ /Icons/pdf.png</normaloff>:/ /Icons/pdf.png</iconset>
                </property>
               </widget>
