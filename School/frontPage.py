@@ -324,7 +324,8 @@ class MySideBar(QMainWindow, Ui_MainWindow):
 
         # Execute the SQL query
         cursor = self.create_connection().cursor()
-        sql_query = f""" SELECT names, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE name LIKE '%{search_query}%' """
+        sql_query = f""" SELECT names, student_id, gender, class, birthday, age, address, phone_number, email FROM students_table WHERE
+                names LIKE '%{search_query}%' """
         cursor.execute(sql_query)
         results = cursor.fetchall()
 

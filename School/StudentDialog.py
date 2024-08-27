@@ -383,7 +383,6 @@ class Ui_StudentsDialog(QDialog):
         while True:
             if gender == "Male":
                 id_start_value = "24" + '/U/M'
-
             else:
                 id_start_value = "24" + '/U/F'
 
